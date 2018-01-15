@@ -18,7 +18,7 @@ func main() {
 	}
 
 	go func() {
-		for range time.Tick(10 * time.Second) {
+		for {
 			res, err := http.Get("http://127.0.0.1:9000")
 			if err != nil {
 				panic(err)
@@ -26,6 +26,7 @@ func main() {
 			bs, _ := ioutil.ReadAll(res.Body)
 			fmt.Println("RESPONSE:", string(bs), res.Header)
 			res.Body.Close()
+			time.Sleep(10 * time.Second)
 		}
 	}()
 
