@@ -31,6 +31,7 @@ func main() {
 	}()
 
 	http.Serve(li, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Connection", "close")
 		io.WriteString(w, "Hello World")
 	}))
 }
