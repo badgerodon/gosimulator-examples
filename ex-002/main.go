@@ -11,13 +11,13 @@ import (
 )
 
 func main() {
-	li, err := net.Listen("tcp", "127.0.0.1:7000")
+	li, err := net.Listen("tcp", "127.0.0.1:9000")
 	if err != nil {
 		panic(err)
 	}
 
 	go func() {
-		res, err := http.Get("http://127.0.0.1:7000")
+		res, err := http.Get("http://127.0.0.1:9000")
 		if err != nil {
 			panic(err)
 		}
