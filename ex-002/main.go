@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
+	"time"
 
 	_ "github.com/badgerodon/simulator/kernel"
 )
@@ -17,13 +18,15 @@ func main() {
 	}
 
 	go func() {
-		res, err := http.Get("http://127.0.0.1:9000")
-		if err != nil {
-			panic(err)
+		for range time.Tick(10 * time.Second) {
+			res, err := http.Get("http://127.0.0.1:9000")
+			if err != nil {
+				panic(err)
+			}
+			bs, _ := ioutil.ReadAll(res.Body)
+			fmt.Println("RESPONSE:", string(bs), res.Header)
+			res.Body.Close()
 		}
-		defer res.Body.Close()
-		bs, _ := ioutil.ReadAll(res.Body)
-		fmt.Println("RESPONSE:", string(bs), res.Header)
 	}()
 
 	http.Serve(li, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
